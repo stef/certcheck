@@ -1,0 +1,8 @@
+[app]
+secret_key		= lotsofrandomchars
+hostbase		= certcheck.me
+redirs 			= /home/certcheck/snifer/redirs
+
+[server]
+port            = 4999
+debug           = True

@@ -6,6 +6,20 @@
       <title>Certcheck - check your browser</title>
       <link rel="shortcut icon" href="/static/img/favicon.ico">
       <script src="/static/js/jquery-1.11.2.min.js"></script>
+      <script>
+         $(document).ready(function() {
+            $('.item').hover(
+              function(){
+                icon = $(this).children().children();
+                icon.attr('off', icon.attr('src'));
+                icon.attr('src', '/static/img/scary.svg');
+              },
+              function(){
+                icon.attr('src', icon.attr('off'));
+              }
+            )
+          });
+      </script>
       <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
   </head>
 

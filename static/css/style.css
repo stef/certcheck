@@ -12,6 +12,11 @@ a{
 	text-decoration: none;
 }
 
+#status{
+	font-weight: bold;
+	text-align: center;
+}
+
 #meio{
 	width: 800px;
 	margin: 0px auto;
@@ -24,13 +29,14 @@ a{
 }
 
 .icon+p{
-	margin-right: 20px;
+	margin: 0 20px 0 0;
 }
 
 .item{
 	background-color: #F2F2F2;
 	border: 5px solid white;
 	margin-bottom: 20px;
+	padding: 10px;
 }
 
 .item:last-child{

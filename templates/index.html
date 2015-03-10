@@ -1,50 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
   <div id="meio">
-    <p class='item' style='padding: 20px'><span class='bold'>CertCheck -</span> When you surf on the internet a lot of things happen. Many of these develop out of your control. For example, when you browse the internet using HTTPS, it means your connection is encrypted. You probably heard about certificates. To make sure that it is encrypted with the key of the website you visit, a Certificate Authority (CA) issue a certificate to the website owners. When you go to websites such as eBay or your bank, a certificate is sent to your browser to make sure that you are exchanging your data with the right website and not with an attacker who wants to intercept your communication. The problem is that certificates could be manipulated by attackers to start Man in the Middle (MITM) attacks: basically attackers would impersonate the websites your are trying to connect to and intercept your data). And when browsers detect a manipulated certificate they do not explain to the users the risks in a clear way. That is why we invite you to play with this website and test your browser to see how it reacts in the following scenarios. Some of them simulate «attack scenarios», but don't worry, they are completely harmless. They are only here to make you familiar with the reactions of your browser to various HTTPS related events.
+    <p class='item' style='padding: 20px'><span class='bold'>CertCheck.me -</span> When you surf on the internet a lot of things happen. Many of these develop out of your control. For example, when you browse the internet using HTTPS, it means your connection is encrypted. You probably heard about certificates. To make sure that it is encrypted with the key of the website you visit, a <span class='bold'>Certificate Authority (CA)</span> issue a certificate to the website owners.
+    <br/><br/>
+    When you go to websites such as eBay or your bank, a certificate is sent to your browser to make sure that you are exchanging your data with the right website and not with an attacker who wants to intercept your communication. The problem is that certificates could be manipulated by attackers to start <span class='bold'>Man in the Middle (MITM)</span> attacks: basically attackers would impersonate the websites your are trying to connect to and intercept your data). And when browsers detect a manipulated certificate they do not explain to the users the risks in a clear way.
+    <br/><br/>
+    That is why we invite you to play with this website and <span class='bold'>test your browser to see how it reacts in the following scenarios</span>. Some of them simulate «attack scenarios», but don't worry, they are completely harmless. They are only here to make you familiar with the reactions of your browser to various HTTPS related events.
     </br></br>
-    Important note: every user gets a unique URL, see the random letters in the addressbar. So, please always, refer to this site without the subdomain, as: <a style='text-decoration: underline' href="http://www.certcheck.me">http://www.certcheck.me</a>
+    <span class='bold'>Important note</span>: every user gets a unique URL, see the random letters in the address bar. Please refer to this site without the subdomain, as: <a style='text-decoration: underline' href="http://www.certcheck.me">http://www.certcheck.me</a>
     </p>
 
-
-    <p class='item status'>Test your browser in different scenarios.<br/>You are currently being served using the "{{cert}}" style certificate</p>
+    <p class='item status'>You are currently being served using the "{{cert}}" style certificate</p>
 
     <div id='itens'>
-      <div class='item box'>
+      <div class='item box' port='5001'>
         <a href='/def' class='wild'>
           <img src='/static/img/happy.svg' class='icon' align='center'>
           <br/><br/><br/><br/><br/>
           <p class='justify'><span class='bold'>Default Certificate Authority and certificate - </span> This is the normal case: you visit a site and it presents its genuine certificate, which is genuinely signed by the real Certificate Authority. This is also the certificate that you are served when you first visit this site, you could say this is the real one, if there would be such a thing.</p>
         </a>
       </div>
-      <div class='item box'>
+      <div class='item box' port='5002'>
         <a href='/sim' class='wild'>
           <img src='/static/img/non.svg' class='icon' align='center'>
           <br/><br/>
           <p class='justify'><span class='bold'>Default Certificate Authority, similar certificate - </span> In this case the issuing authority (or someone controlling it) produced a second website certificate. This could be because the previous website certificate expired or when the services is available via multiple servers. This could be legitimate or not: it depends on a case-by-case basis. If you deal with sensitive website (e.g. your bank), you might want to avoid services that use such practices. In the worst case someone has taken illegitimate control of the CA and produced a new certificate to intercept the communication between you and the website you are visiting. Notice how a default browser configuration doesn't even bother in firefox to throw a scare window.</p>
         </a>
       </div>
-      <div class='item box'>
+      <div class='item box' port='5003'>
         <a href='/res' class='wild'>
           <img src='/static/img/non.svg' class='icon' align='center'>
           <br/><br/>
           <p class='justify'><span class='bold'>Similar Certificate Authority, similar certificate - </span> This is a valid Certificate Authority that has been used to create another certificate for this website. This can happen with content delivery networks – which would be legitimate – but also during MITM attacks (i.e. when someone was able to trick the CA to beileve it issues the cert to the legal owner, or when some 3rd party coercing or controlling the issuing CA to issue a cert for interception). Another case when this happens, if you have some kind of enterprise firewall, that does content filtering, in such cases it is custom, to install a local CA in all the browsers of the enterprise, and using this cert, the proxy is continously mounting MITM attacks against the companies employers. This is the first test-case that produces a <a href="#firefox">scare message</a>.</p>
         </a>
       </div>
-      <div class='item box'>
+      <div class='item box' port='5004'>
         <a href='/oth' class='wild'>
           <img src='/static/img/non.svg' class='icon' align='center'>
           <p class='justify'><span class='bold'>Self-signed certificate - </span> Here you go with a completely unknown Certificate Authority and certificate. Unknown in this case means, the certificate is not shipped by your browser. Basically this can mean also different things: [1] this is a legitimate site, which does not want to buy a certificate from a CA (and then you should verify the fingerprints of the site), or [2] this is a certificate from a valid CA, which is not favored by the ruling class of CAs, but if you trust the CA you can import this yourself (e.g. there's a lot of sites with certs from a CA called CAcert), or [3] this is really a MITM attack. However, if this would be a MITM attack on a cert with a trusted CA in your browser it would be naive from the attacker’s point of view, yet for sites that use self-signed certificates it makes it quite easy to MITM the connection if the fingerprints of the genuine site are not verified dilligently... Notice how a default firefox produces the same <a href="#firefox">scare message as in the previous case.</a></p>
         </a>
       </div>
-      <div class='item box'>
+      <div class='item box' port='5005'>
         <a href='/cac' class='wild'>
           <img src='/static/img/non.svg' class='icon' align='center'>
           <br/><br/><br/><br/>
           <p class='justify'><span class='bold'>Unkown but valid CA and cert - </span> This is a quite common CA (called CAcert) which is a community run CA, and is a pariah among the for-profit CA industry, so it's not included in any of the otherwise so community friendly browswers. However there is a strong community behind CAcert which makes it quite common online. This is indeed one of the few CAs that you might want to install, otherwise it's quite a good idea to remove CAs you'll never encounter naturally, like various CAs related to foreign governments. Which those are, depends of course on your current life, but a general purging of all such is neither a bad idea. Again in default firefox we get exactly the same <a href="#firefox">scare message</a>.</p>
         </a>
       </div>
-      <div class='item box'>
+      <div class='item box' port='5006'>
         <a href='/mtm' class='wild'>
           <img src='/static/img/sad.svg' class='icon' align='center'>
           <br/><br/><br/><br/>

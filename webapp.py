@@ -76,7 +76,8 @@ def index():
         resp = make_response(redirect('https://%s.%s/' % (prefix, hostbase)))
     else:
         cert = getcert(host)
-        resp = make_response(render_template('index.html', error=None, cert=cert))
+        port = portmap.keys()[portmap.values().index(cert)] # get dict key by value
+        resp = make_response(render_template('index.html', error=None, cert=cert, port=port))
     resp.headers['Connection'] = 'close'
     return resp
 

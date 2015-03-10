@@ -3,11 +3,12 @@
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
       <meta http-equiv="content-language" content="en" />
       <meta name="description" content="Test your browser on various https SSL certificates">
-      <title>Certcheck - check your browser</title>
+      <title>CertCheck your browser</title>
       <link rel="shortcut icon" href="/static/img/favicon.ico">
       <script src="/static/js/jquery-1.11.2.min.js"></script>
       <script>
          $(document).ready(function() {
+            $(".item[port='{{port}}']").css('border', '5px solid #FFBD09');
             $('.item').hover(
               function(){
                 icon = $(this).children().children();

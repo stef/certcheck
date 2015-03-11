@@ -75,7 +75,8 @@ def index():
         s.set(prefix, hostbase, "5001")
         resp = make_response(redirect('https://%s.%s/' % (prefix, hostbase)))
     else:
-        cert = getcert(host)        resp = make_response(render_template('index.html', error=None, cert=cert))
+        cert = getcert(host)        
+        resp = make_response(render_template('index.html', error=None, cert=cert))
     resp.headers['Connection'] = 'close'
     return resp
 

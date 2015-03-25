@@ -1,6 +1,6 @@
 body{
 	background-color: #E6E4E4;
-	font-family: "Source code Pro", "Courier New", "mono", "sans";
+	font-family: "Montserrat";
 }
 
 p{
@@ -8,8 +8,17 @@ p{
 }
 
 a{
-	color: black;
+	color: darkblue;
 	text-decoration: none;
+}
+
+.hidden{
+	display: none;
+}
+
+#more{
+	float: right;
+	padding-top: 7px
 }
 
 .status{
@@ -18,7 +27,7 @@ a{
 }
 
 #meio{
-	width: 800px;
+	width: 965px;
 	margin: 0px auto;
 }
 
@@ -28,17 +37,22 @@ a{
 	text-align: center;
 }
 
-.justify{
-	text-align: justify;
+#itens{
+	display: inline-block;
+	margin-bottom: 0px;
+	height: 235px;
 }
 
-.item{
+.center{
+	text-align: center;
+}
+
+.item {
 	background-color: #F2F2F2;
 	border: 5px solid white;
 	margin-bottom: 20px;
 	padding: 10px;
 }
-
 
 .box:hover{
 	border: 5px solid #FFBD09;
@@ -49,17 +63,14 @@ a{
 }
 
 .box{
-	width: 365px;
+	width: 125px;
+	height: 205px;
 	float: left;
-	height: 565px;
+	margin-right: 7px;
 }
 
-.box:nth-child(2n+0){
-	margin-left: 10px;
-}
-
-.item:last-child{
-	margin-bottom: 0px;
+.box:last-child{
+	margin-right: 0px;
 }
 
 .item:hover{

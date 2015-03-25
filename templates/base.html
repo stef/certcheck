@@ -6,14 +6,19 @@
       <title>CertCheck your browser</title>
       <link rel="shortcut icon" href="/static/img/favicon.ico">
       <script src="/static/js/jquery-1.11.2.min.js"></script>
+      <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
       {% block scripts %}
       {% endblock %}
       {% block styles %}
       {% endblock %}
       <script>
          $(document).ready(function() {
+            $('#more').click(function(){
+              $(this).hide();
+              $('.hidden').fadeIn(800);
+            })
             $(".item[cert='{{cert}}']").css('border', '5px solid #FFBD09');
-            $('.item').hover(
+            $('.item.box').hover(
               function(){
                 icon = $(this).children().children();
                 icon.attr('off', icon.attr('src'));

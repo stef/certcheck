@@ -1,6 +1,16 @@
+@font-face {
+    font-family: 'MontserratRegular';
+    src: url('/static/fonts/MontserratRegular.eot');
+    src: url('/static/fonts/MontserratRegular.eot') format('embedded-opentype'),
+         url('/static/fonts/MontserratRegular.woff2') format('woff2'),
+         url('/static/fonts/MontserratRegular.woff') format('woff'),
+         url('/static/fonts/MontserratRegular.ttf') format('truetype'),
+         url('/static/fonts/MontserratRegular.svg#MontserratRegular') format('svg');
+}
+
 body{
 	background-color: #E6E4E4;
-	font-family: "Montserrat";
+	font-family: "MontserratRegular";
 }
 
 p{

@@ -1,42 +1,67 @@
 <html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="content-language" content="en" />
-    <meta name="description" content="Test your browser on various https SSL certificates">
-    <meta name="keywords" content="" />
-    <title>Certcheck {% block title %}{% endblock %}</title>
-    <link rel="shortcut icon" href="/static/img/favicon.ico">
-    <script src="/static/js/jquery-1.11.2.min.js"></script>
-    <script src="/static/js/app.js"></script>
-    {% block scripts %}
-    {% endblock %}
-    <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
-    {% block styles %}
-    {% endblock %}
-</head>
-<body>
- <div id="header">
-   {% block header %}
-   {% endblock %}
-  </div>
-  <div id="content">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class=flashes>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-    {% block content %}
-    {% endblock %}
+  <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+      <meta http-equiv="content-language" content="en" />
+      <meta name="description" content="Test your browser on various https SSL certificates">
+      <title>CertCheck your browser</title>
+      <link rel="shortcut icon" href="/static/img/favicon.ico">
+      <script src="/static/js/jquery-1.11.2.min.js"></script>
+      {% block scripts %}
+      {% endblock %}
+      {% block styles %}
+      {% endblock %}
+      <script>
+         $(document).ready(function() {
+            $('#more').click(function(){
+              $(this).hide();
+              $('.hidden').fadeIn(700);
+            })
+
+            $(".item[cert='{{cert}}']").css('border', '5px solid #FFBD09');
+
+            $('.item.box')
+            .click(function(){
+              var innerHTML = "<h2>About " + $(this).children().next().text() + "</h2>" + $(this).attr('info') + '<a class="btn test" href="'+ $(this).attr('to') +'">[ Test me! ]</a>';
+              $('#info').html(innerHTML);
+            })
+            .hover(
+              function(){
+                icon = $(this).children().children();
+                icon.attr('off', icon.attr('src'));
+                icon.attr('src', '/static/img/scary.svg');
+              },
+              function(){
+                icon.attr('src', icon.attr('off'));
+              }
+            )
+            $('#less').click(function(){
+              $('#more').show();
+              $('.hidden').hide();
+            })
+            $('.item.box').first().click();
+          });
+      </script>
+      <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
+  </head>
+
+  <body>
+   <div id="header">
+     {% block header %}
+     {% endblock %}
     </div>
-    <a id="footer" href="http://tacticaltech.org" target="_blank">Tactical Technology Collective</a>
-{#    <div id="footer">
-      {% block footer %}
+    <div id="content">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+      {% block content %}
       {% endblock %}
     </div>
-#}
-</body>
+    <a id="footer" href="http://tacticaltech.org" target="_blank">Tactical Technology Collective</a>
+  </body>
 </html>

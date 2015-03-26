@@ -14,10 +14,17 @@
          $(document).ready(function() {
             $('#more').click(function(){
               $(this).hide();
-              $('.hidden').fadeIn(800);
+              $('.hidden').fadeIn(700);
             })
+
             $(".item[cert='{{cert}}']").css('border', '5px solid #FFBD09');
-            $('.item.box').hover(
+
+            $('.item.box')
+            .click(function(){
+              var innerHTML = "<h2>About " + $(this).children().next().text() + "</h2>" + $(this).attr('info') + '<a class="btn test" href="'+ $(this).attr('to') +'">[ Test me! ]</a>';
+              $('#info').html(innerHTML);
+            })
+            .hover(
               function(){
                 icon = $(this).children().children();
                 icon.attr('off', icon.attr('src'));
@@ -27,6 +34,11 @@
                 icon.attr('src', icon.attr('off'));
               }
             )
+            $('#less').click(function(){
+              $('#more').show();
+              $('.hidden').hide();
+            })
+            $('.item.box').first().click();
           });
       </script>
       <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8" />

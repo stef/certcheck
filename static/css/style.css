@@ -14,12 +14,16 @@ body{
 }
 
 p{
-	font-size: 14px;
+	font-size: 16px;
 }
 
-a{
-	color: darkblue;
+a.btn{
+	background-color: #FFBD09;
+	color: black;
 	text-decoration: none;
+}
+a.btn:hover{
+	text-decoration: underline;
 }
 
 .hidden{
@@ -28,7 +32,7 @@ a{
 
 #more{
 	float: right;
-	padding-top: 7px
+	margin-top: 17px
 }
 
 .status{
@@ -83,14 +87,13 @@ a{
 	margin-right: 0px;
 }
 
-.item:hover{
+.item.box:hover{
 	cursor: pointer;
 }
 
 #footer {
 	text-align: center;
 	color: gray;
-	padding-top: 15px;
 	font-size: 13px;
 	display: inline-block;
 	width: 100%;
@@ -99,4 +102,12 @@ a{
 
 .bold{
 	font-weight: bold
+}
+
+.test{
+	margin-left: 10px;
+}
+
+#less{
+	float: right;
 }

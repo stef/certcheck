@@ -85,6 +85,12 @@ def index():
     resp.headers['Connection'] = 'close'
     return resp
 
+@app.route('/about', methods=['GET'])
+def about(): 
+    resp = make_response(render_template('about.html'))
+    resp.headers['Connection'] = 'close'
+    return resp
+
 @app.route('/<string:act>', methods=['GET'])
 def change_cert(act):
     host = urlparse(request.url).hostname

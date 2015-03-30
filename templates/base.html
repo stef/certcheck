@@ -12,43 +12,45 @@
       {% endblock %}
       <script>
          $(document).ready(function() {
-            $('#more').click(function(){
-              $(this).hide();
-              $('.hidden').fadeIn(700);
-            })
 
-            $(".item[cert='{{cert}}']").css('border', '5px solid #FFBD09');
+            function setInfo(elem){
+              var innerHTML = '<a class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + $(elem).children().next().text() + "</h2><p>" + $(elem).attr('info') + '</p>';
+              $('#info').html(innerHTML);
+            }
+
+            var actual = $(".item[cert='{{cert}}']")
+            actual.css('border', '5px solid #FFBD09')
+            setInfo(actual);
 
             $('.item.box')
-            .click(function(){
-              var innerHTML = "<h2>About " + $(this).children().next().text() + "</h2>" + $(this).attr('info') + '<a class="btn test" href="'+ $(this).attr('to') +'">[ Test me! ]</a>';
-              $('#info').html(innerHTML);
+              .click(function(){ setInfo($(this)) })
+              .hover(
+                function(){
+                  icon = $(this).children();
+                  icon.attr('off', icon.attr('src'));
+                  icon.attr('src', '/static/img/scary.svg');
+                },
+                function(){
+                  icon.attr('src', icon.attr('off'));
+                }
+              )
+
+            $('#more').click(function(){
+              $(this).hide();
+              $('.hidden').fadeIn(600);
             })
-            .hover(
-              function(){
-                icon = $(this).children().children();
-                icon.attr('off', icon.attr('src'));
-                icon.attr('src', '/static/img/scary.svg');
-              },
-              function(){
-                icon.attr('src', icon.attr('off'));
-              }
-            )
+
             $('#less').click(function(){
-              $('#more').show();
-              $('.hidden').hide();
+              $('.hidden').fadeOut(400, function(){ 
+                $('#more').show()
+              });
             })
-            $('.item.box').first().click();
           });
       </script>
       <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
   </head>
 
   <body>
-   <div id="header">
-     {% block header %}
-     {% endblock %}
-    </div>
     <div id="content">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -62,6 +64,7 @@
       {% block content %}
       {% endblock %}
     </div>
-    <a id="footer" href="http://tacticaltech.org" target="_blank">Tactical Technology Collective</a>
+    {% block footer %}
+    {% endblock %}
   </body>
 </html>

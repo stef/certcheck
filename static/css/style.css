@@ -13,6 +13,10 @@ body{
 	font-family: "MontserratRegular";
 }
 
+h2{
+	margin: 10px 0px;
+}
+
 p{
 	font-size: 16px;
 }
@@ -48,17 +52,13 @@ a.btn:hover{
 .icon{
 	height: 155px;
 	width: inherit;
-	text-align: center;
 }
 
 #itens{
 	display: inline-block;
 	margin-bottom: 0px;
 	height: 235px;
-}
-
-.center{
-	text-align: center;
+	margin-bottom: 20px;
 }
 
 .item {
@@ -81,6 +81,8 @@ a.btn:hover{
 	height: 205px;
 	float: left;
 	margin-right: 7px;
+	text-align: center;
+	font-weight: bold;
 }
 
 .box:last-child{
@@ -93,11 +95,18 @@ a.btn:hover{
 
 #footer {
 	text-align: center;
-	color: gray;
-	font-size: 13px;
 	display: inline-block;
 	width: 100%;
+	color: gray;
+	font-size: 13px;
+}
+#footer>a{
+	color: gray;
+	font-size: 13px;
 	text-decoration: none;
+}
+#footer>a:hover{
+	text-decoration: underline;
 }
 
 .bold{
@@ -105,7 +114,27 @@ a.btn:hover{
 }
 
 .test{
-	margin-left: 10px;
+	margin: 15px 15px;
+	float: right;
+	font-weight: bold
+}
+
+a.ttc{
+	color: black;
+	font-size: 16px;
+	text-decoration: none;
+}
+a.ttc{
+	text-decoration: none;
+}
+
+.center{
+	text-align: center;
+}
+
+.msg{
+	font-size: 13px;
+	margin: 10px 0px 0px;
 }
 
 #less{

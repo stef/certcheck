@@ -23,7 +23,11 @@
             setInfo(actual);
 
             $('.item.box')
-              .click(function(){ setInfo($(this)) })
+              .click(function(){ 
+                setInfo($(this));
+                $('.item.box').css('border', '');
+                $(this).css('border', '5px solid #FFBD09')
+              })
               .hover(
                 function(){
                   icon = $(this).children();

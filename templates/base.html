@@ -25,6 +25,7 @@
             $('.item.box')
               .click(function(){ 
                 setInfo($(this));
+                $('.test').hide().fadeIn(600);
                 $('.item.box').css('border', '');
                 $(this).css('border', '5px solid #FFBD09')
               })

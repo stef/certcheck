@@ -49,6 +49,12 @@ a.btn:hover{
 	margin: 0px auto;
 }
 
+#screens>img{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .icon{
 	height: 155px;
 	width: inherit;

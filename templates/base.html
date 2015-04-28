@@ -6,6 +6,7 @@
       <title>CertCheck your browser</title>
       <link rel="shortcut icon" href="/static/img/favicon.ico">
       <script src="/static/js/jquery-1.11.2.min.js"></script>
+      <script src="/static/js/screens.js"></script>
       {% block scripts %}
       {% endblock %}
       {% block styles %}
@@ -13,9 +14,21 @@
       <script>
          $(document).ready(function() {
 
+            preLoad = new Image(); 
+            preLoad.src="/static/img/scary.svg";
+
             function setInfo(elem){
-              var innerHTML = '<a class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + $(elem).children().next().text() + "</h2><p>" + $(elem).attr('info') + '</p>';
+              var title = $(elem).children().next().text();
+              var certi = $(elem).attr('cert');
+              var innerHTML = '<a class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>';
+              $('#screens').empty();
               $('#info').html(innerHTML);
+              var shots = screens["{{browser}}"][certi];
+              var path = "/static/img/shots/{{browser}}/";
+              $.each(shots, function(i, e){
+                console.log(e);
+                $('#screens').append($('<hr/><img src="'+ path + e +'"/>'));
+              })
             }
 
             var actual = $(".item[cert='{{cert}}']")

@@ -21,7 +21,7 @@
 from flask import Flask, request, render_template, redirect, abort, make_response
 from common import cfg
 from urlparse import urlparse
-import os, random, itertools, hmac, hashlib, string, sys
+import os, random, itertools, hmac, hashlib, string, sys, httpagentparser
 from snifer import Snifer
 
 def rnd(size):
@@ -60,6 +60,11 @@ def getcert(host):
     port = getport(host)
     return portmap[port]
 
+def getbrowser():
+    userAgentString = request.headers.get('User-Agent')
+    parse = httpagentparser.detect(userAgentString)
+    return parse['browser']['name']
+
 def setcert(host, type):
     with open("%s/%s" % (cfg.get('app','redirs'), host), 'w') as fd:
         fd.write("%s\n" % mapports[type])
@@ -81,7 +86,7 @@ def index():
         resp = make_response(redirect('https://%s.%s/' % (prefix, hostbase)))
     else:
         cert = getcert(host)      
-        resp = make_response(render_template('index.html', error=None, cert=cert))
+        resp = make_response(render_template('index.html', error=None, cert=cert, browser=getbrowser()))
     resp.headers['Connection'] = 'close'
     return resp
 

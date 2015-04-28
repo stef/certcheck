@@ -12,7 +12,7 @@
       </br>
     </div>
   </div>
-  <p class='item status center'>You are currently using the "{{cert}}" style certificate. Click on the funny locks and test your browser!</p>
+  <p class='item status center'>You are in {{browser}} browser with "{{cert}}" certificate. Click on the funny locks and test it!</p>
   <div id='itens'>
     <div style='background-color: #AFDDA0' to='/def' class='item box' cert='Default CA/cert' info="This is the normal case: you visit a site and it presents its genuine certificate, which is genuinely signed by the real Certificate Authority.">
       <img src='/static/img/happy.svg' class='icon'>
@@ -30,22 +30,18 @@
       <img src='/static/img/non.svg' class='icon'>
       <span class='bold'>Doctor Self-Signed</span>
     </div>
-    <div style='background-color: #F0CD5C' to='/cac' class='item box' cert='Faked cert and CA' info="This is the case of a certificate made by a CAcert, which is a community ran by a community. CAcert is a pariah among the for-profit CA industry – and it's not included in any of the browsers' certificate «accept lists». However, CAcert is supported by a vibrant community which makes it quite common. This is one of the few CAs that you might want to install, but some browsers do not seem to like it and will raise alert messages.">
+    <div style='background-color: #F0CD5C' to='/cac' class='item box' cert='A valid but untrusted CA, real cert' info="This is the case of a certificate made by a CAcert, which is a community ran by a community. CAcert is a pariah among the for-profit CA industry – and it's not included in any of the browsers' certificate «accept lists». However, CAcert is supported by a vibrant community which makes it quite common. This is one of the few CAs that you might want to install, but some browsers do not seem to like it and will raise alert messages.">
       <img src='/static/img/non.svg' class='icon'>
       <span class='bold'>Sir Unknown Valid</span>
     </div>
-    <div style='background-color: #FF7878' to='/mtm' class='item box' cert='A valid but untrusted CA, real cert' info="This is a completely forged certificate from a forged Certificate Authority. Basically the counterfeited certificate looks almost the same of the real one in scenario (2.a), except for the fingerprints and a few less obvious details. This situation simulates what could be a moderately sophisticated attack.">
+    <div style='background-color: #FF7878' to='/mtm' class='item box' cert='Faked cert and CA' info="This is a completely forged certificate from a forged Certificate Authority. Basically the counterfeited certificate looks almost the same of the real one in scenario (2.a), except for the fingerprints and a few less obvious details. This situation simulates what could be a moderately sophisticated attack.">
       <img src='/static/img/sad.svg' class='icon'>
       <span class='bold'>Jack Middle Attacker</span>
     </div>
   </div>
   <div class='item' style='width: 935px'>
     <div id='info'>About</div>
-    <div class='center'>
-      <img src='/static/img/firefox.png' style='width: 750px'/>
-      <p class='msg center'>some scary browser's message</p>
-      </div>
-    </div>
+    <div id='screens'></div>
   </div>
 {% endblock %}
 

@@ -1,4 +1,63 @@
 {% extends "base.html" %}
+
+
+{% block scripts %}
+<script>
+ $(document).ready(function() {
+
+    preLoad = new Image(); 
+    preLoad.src="/static/img/scary.svg";
+
+    function setInfo(elem){
+      var title = $(elem).children().next().text();
+      var certi = $(elem).attr('cert');
+      var innerHTML = '<a class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>';
+      $('#screens').empty();
+      $('#info').html(innerHTML);
+      var shots = screens["{{browser}}"][certi];
+      var path = "/static/img/shots/{{browser}}/";
+      $.each(shots, function(i, e){
+        console.log(e);
+        $('#screens').append($('<hr/><img src="'+ path + e +'"/>'));
+      })
+    }
+
+    var actual = $(".item[cert='{{cert}}']")
+    actual.css('border', '5px solid #FFBD09')
+    setInfo(actual);
+
+    $('.item.box')
+      .click(function(){ 
+        setInfo($(this));
+        $('.test').hide().fadeIn(600);
+        $('.item.box').css('border', '');
+        $(this).css('border', '5px solid #FFBD09')
+      })
+      .hover(
+        function(){
+          icon = $(this).children();
+          icon.attr('off', icon.attr('src'));
+          icon.attr('src', '/static/img/scary.svg');
+        },
+        function(){
+          icon.attr('src', icon.attr('off'));
+        }
+      )
+
+    $('#more').click(function(){
+      $(this).hide();
+      $('.hidden').fadeIn(600);
+    })
+
+    $('#less').click(function(){
+      $('.hidden').fadeOut(400, function(){ 
+        $('#more').show()
+      });
+    })
+  });
+</script>
+{% endblock %}
+
 {% block content %}
   <div id="meio">
     <div id='main' class='item' style='padding: 20px'>

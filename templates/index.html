@@ -12,6 +12,11 @@
     preLoad = new Image(); 
     preLoad.src="/static/img/scary.svg";
 
+    $('.jcarousel').on('jcarousel:fullyvisiblein', 'li', function(event, carousel) {
+      var description = $('.jcarousel').jcarousel('visible').children().attr('alt');
+      $('.credits').html(description);
+    });
+
     function setInfo(elem){
       var title = $(elem).children().next().text();
       var certi = $(elem).attr('cert');
@@ -21,9 +26,11 @@
       var shots = screens["{{browser}}"][certi];
       var path = "/static/img/shots/{{browser}}/";
       $.each(shots, function(i, e){
-        console.log(e);
-        $('#screens').append($('<hr/><img src="'+ path + e +'"/>'));
+        $('#screens').append($('<li><img alt="'+ e['label'] +'" src="'+ path + e['src'] +'"/></li>'));
+        //
       })
+      var jcarousel = $('.jcarousel').jcarousel();
+      jcarousel.jcarousel('reload');
     }
 
     var actual = $(".item[cert='{{cert}}']")
@@ -75,11 +82,11 @@
       </br>
     </div>
   </div>
-  <p class='item status center'>You are in {{browser}} browser with "{{cert}}" certificate. Click on the funny locks and test it!</p>
+  <p class='item status center'>You are in {{browser}} browser with "{{cert}}" certificate. <br/ >Select a funny padlock and click [ test me! ] to see how different types of certificates affect your browser.</p>
   <div id='itens'>
     <div style='background-color: #AFDDA0' to='/def' class='item box' cert='Default CA/cert' info="This is the normal case: you visit a site and it presents its genuine certificate, which is genuinely signed by the real Certificate Authority.">
       <img src='/static/img/happy.svg' class='icon'>
-      <span class='bold'>Miss Authority</span>
+      <span class='bold'>Ms Authority</span>
     </div>
     <div style='background-color: #F0CD5C' to='/sim' class='item box' cert='Default CA, similar cert' info="In this case the issuing authority (or someone controlling it) produced a second website certificate. This could be because the previous website certificate expired or when the services is available via multiple servers. This could be legitimate or not: it depends on a case-by-case basis. If you deal with sensitive website (e.g. your online bank), you might want to avoid services that use such practices. In the worst case someone has taken illegitimate control of the CA and produced a new certificate to intercept the communication between you and the website you are visiting.">
       <img src='/static/img/non.svg' class='icon'>
@@ -104,7 +111,15 @@
   </div>
   <div class='item' style='width: 935px'>
     <div id='info'>About</div>
-    <div id='screens'></div>
+     <div class="jcarousel-wrapper">
+        <div class="jcarousel">
+            <ul id='screens'></ul>
+        </div>
+        <p class="credits"></p>
+        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+        <p class="jcarousel-pagination"></p>
+    </div>
   </div>
 {% endblock %}
 

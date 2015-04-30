@@ -200,7 +200,9 @@ a.ttc{
 }
 
 .jcarousel li {
-    float: left;
+    display:table-cell; 
+    vertical-align:middle; 
+    text-align:center;
 }
 
 /** Carousel Controls **/

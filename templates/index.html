@@ -20,7 +20,7 @@
     function setInfo(elem){
       var title = $(elem).children().next().text();
       var certi = $(elem).attr('cert');
-      var innerHTML = '<a class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>';
+      var innerHTML = '<a target="_blank" class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>';
       $('#screens').empty();
       $('#info').html(innerHTML);
       var shots = screens["{{browser}}"][certi];
@@ -30,6 +30,7 @@
         //
       })
       var jcarousel = $('.jcarousel').jcarousel();
+      $('.jcarousel').jcarousel('scroll', 0);
       jcarousel.jcarousel('reload');
     }
 
@@ -72,19 +73,20 @@
 {% block content %}
   <div id="meio">
     <div id='main' class='item' style='padding: 20px'>
-      <p><span class='bold'>CertCheck.me </span> is a small web project by <a href='https://tacticaltech.org' target='_blank' class='ttc'>Tactical Technology Collective</a> explaining security certificates while browsing internet using HTTPS. It shows how to read a certificate and understands risks of using unverified ones. It also shows ways in which certificates can be manipulated so that the manipulating side can collect private information being tranfered over HTTPS - such as logins, passwords and other sensitive data.
+      <p><span class='bold'>CertCheck.me </span> is a small web project by <a href='https://tacticaltech.org' target='_blank' class='ttc'>Tactical Technology Collective</a> that explains the role of the certificate when you attempt to communicate securely with a website through HTTPS. It will help you read security warnings and understand the risks associated with unverified certificates. It also demonstrates how someone with the ability to monitor your Internet traffic could manipulate a site's certificate in order to collect information that is supposed to be encrypted, such as your password and any sensitive data you might be sending to or receiving from the website.
       <a href='#' class='btn' id='more'>[ read more &#x25BE; ]</a>
     </p>
     <div class='hidden'>
-      <p>When you surf on the internet a lot of things happen. Many of these develop out of your control. For example, when you browse the internet using HTTPS, it means your connection is encrypted. You probably heard about certificates. To make sure that it is encrypted with the key of the website you visit, a Certificate Authority (CA) issue a certificate to the website owners. When you go to websites such as eBay or your bank, a certificate is sent to your browser to make sure that you are exchanging your data with the right website and not with an attacker who wants to intercept your communication.</p>
-      <p> The problem is that certificates could be manipulated by attackers to start Man in the Middle (MITM) attacks: basically attackers would impersonate the websites your are trying to connect to and intercept your data). And when browsers detect a manipulated certificate they do not explain to the users the risks in a clear way. That is why we invite you to play with this website and test your browser to see how it reacts in the following scenarios. Some of them simulate «attack scenarios», but don't worry, they are completely harmless. They are only here to make you familiar with the reactions of your browser to various HTTPS related events.</p>
+      <p>When you browse websites online, there is a lot happening in the background. If you access an HTTPS website, for example, your connection is encrypted. You may have heard about "certificates," which are an important part of how this sort of encryption works. In order to reassure your web browser that you are not accidentally exchanging (encrypted) information with an eavesdropper, HTTPS websites will present you with a certificate that has been signed by a trusted Certificate Authority.</p>
+      <p>This certificate tells your browser that the encryption "key" you are about to rely on to protect your traffic actually belongs to the HTTPS website you are visiting. Without this reassurance, your browser will worry that an attacker might be reading everything you send to or receive from that website... and then passing it along (re-encrypted) to its original destination. Worse yet, in the absence of a trusted certificate, there would be no way for you, or the website, to know that you were being spied on. This is called a Man-in-the-Middle attack.</p>
+      <p>Fortunately, your web browser is pretty good at recognising suspicious certificates. But, when it gets nervous, it's not so good at explaining why. So, we invite you to play with this website and test your browser to see how it reacts to the following scenarios. A few of them simulate attacks, but don't worry, they are completely harmless. They are just a way to for you to familiarise yourself with how your web browser describes different types of certificates.</p>
       <a href='#' class='btn' id='less'>[ less &#x25B4; ]</a>
       </br>
     </div>
   </div>
   <p class='item status center'>You are in {{browser}} browser with "{{cert}}" certificate. <br/ >Select a funny padlock and click [ test me! ] to see how different types of certificates affect your browser.</p>
   <div id='itens'>
-    <div style='background-color: #AFDDA0' to='/def' class='item box' cert='Default CA/cert' info="This is the normal case: you visit a site and it presents its genuine certificate, which is genuinely signed by the real Certificate Authority.">
+    <div style='background-color: #AFDDA0' to='/def' class='item box' cert='Default CA/cert' info="This is the normal case. You visit a site and it presents a genuine certificate that has been properly signed by a legitimate Certificate Authority.">
       <img src='/static/img/happy.svg' class='icon'>
       <span class='bold'>Ms Authority</span>
     </div>
@@ -106,7 +108,7 @@
     </div>
     <div style='background-color: #FF7878' to='/mtm' class='item box' cert='Faked cert and CA' info="This is a completely forged certificate from a forged Certificate Authority. Basically the counterfeited certificate looks almost the same of the real one in scenario (2.a), except for the fingerprints and a few less obvious details. This situation simulates what could be a moderately sophisticated attack.">
       <img src='/static/img/sad.svg' class='icon'>
-      <span class='bold'>Jack Middle Attacker</span>
+      <span class='bold'>Jane in the Middle</span>
     </div>
   </div>
   <div class='item' style='width: 935px'>

@@ -23,6 +23,7 @@
       var innerHTML = '<a target="_blank" class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>';
       $('#screens').empty();
       $('#info').html(innerHTML);
+      //todo chrome default and safari pics
       var shots = screens["{{browser}}"][certi];
       var path = "/static/img/shots/{{browser}}/";
       $.each(shots, function(i, e){
@@ -84,31 +85,49 @@
       </br>
     </div>
   </div>
-  <p class='item status center'>You are in {{browser}} browser with "{{cert}}" certificate. <br/ >Select a funny padlock and click [ test me! ] to see how different types of certificates affect your browser.</p>
+  <p class='item status center'>You are in {{browser}} browser with "{{cert}}" certificate. <br/ >Select a padlock and click [ test me! ] to see how different types of certificates affect your browser.</p>
   <div id='itens'>
     <div style='background-color: #AFDDA0' to='/def' class='item box' cert='Default CA/cert' info="This is the normal case. You visit a site and it presents a genuine certificate that has been properly signed by a legitimate Certificate Authority.">
       <img src='/static/img/happy.svg' class='icon'>
       <span class='bold'>Ms Authority</span>
     </div>
-    <div style='background-color: #F0CD5C' to='/sim' class='item box' cert='Default CA, similar cert' info="In this case the issuing authority (or someone controlling it) produced a second website certificate. This could be because the previous website certificate expired or when the services is available via multiple servers. This could be legitimate or not: it depends on a case-by-case basis. If you deal with sensitive website (e.g. your online bank), you might want to avoid services that use such practices. In the worst case someone has taken illegitimate control of the CA and produced a new certificate to intercept the communication between you and the website you are visiting.">
+    <div style='background-color: #F0CD5C' to='/sim' class='item box' cert='Default CA, similar cert' info="In this case, the website (or someone manipulating your connection to it) has presented your browser with a second valid certificate, signed by the same Certificate Authority (CA). This could be because the previous certificate expired or because the website is accessible, via the same web address, from multiple servers.
+     <br/><br/>
+    In the worst case, however, an attacker may have taken control of this particular CA and produced a new certificate in order to intercept HTTPS traffic to and from the website. While such attacks are believed to be relatively uncommon, there is no way to tell whether or not a certificate like this is legitimate just by examining it closely.
+    <br/><br/>
+    If this is a website with which you exchange sensitive information, such as an email provider or a cloud storage service, you might want to keep an eye on the certificates it sends you, over the course of a week or so, to determine whether or not it behaves this way normally. If it does not (and assuming its usual certificate was not about to expire),  then you have good reason to be concerned if you see Mister Similar.
+    <br/><br/>
+    And remember, HTTPS encryption is important for websites that allow you 'to do' stuff (like making purchases, transferring money, downloading software or announcing things publicly) in addition to those with which you exchange confidential data. In fact, if you reuse your passphrases - which you shouldn't! - HTTPS is important for any website that requires you to sign in, because it is the only thing that hides your passphrase from online eavesdroppers.">
       <img src='/static/img/non.svg' class='icon'>
       <span class='bold'>Mister Similar</span>
     </div>
-    <div style='background-color: #F0CD5C' to='/res' class='item box' cert='Similar CA, similar cert' info="This is a valid Certificate Authority that has been used to create another certificate for this website. This can happen with content delivery networks – which would be legitimate – but also during MITM attacks (i.e. when someone is able to trick the CA to let it believe it is issuing  the certificate to the legal owner or when some 3rd party is coercing the issuing CA to issue a certificate for interception). This could happen also if you have an enterprise firewall that filters content.">
+    <div style='background-color: #F0CD5C' to='/res' class='item box' cert='Similar CA, similar cert' info="In this case, the website (or someone manipulating your connection to it) has presented your browser with second valid certificate, signed by a different Certificate Authority (CA). This could mean that a content delivery network (CDN) is serving the website from multiple locations around the world, in which case you might notice several different certificates showing up for the same site.
+    <br/><br/>
+    However, this could also be a sign that someone has taken control of a CA and produced a new certificate in order to intercept HTTPS traffic to and from the website. Such attacks are believed to be relatively uncommon, though they are easier to carry out than the attack described in the previous scenario, which required control of the website's actual CA. Unfortunately, there is no way to tell whether or not a certificate like this is legitimate just by examining it closely.
+    <br/><br/>
+    If this is a website with which you exchange sensitive information, such as an email provider or a cloud storage service, you might want to keep an eye on the certificates it sends you, over the course of a week or so, to determine whether or not it behaves this way normally. If it does not (and assuming its usual certificate was not about to expire), then you have good reason to be concerned if you see Similar Jr.
+    <br/><br/>
+    And remember, HTTPS encryption is important for websites that allow you to 'do stuff' (like making purchases, transferring money, downloading software or announcing things publicly) in addition to those with which you exchange confidential data. In fact, if you reuse your passphrases - which you shouldn't! -  HTTPS is important for any website that requires you to sign in, because it is the only thing that hides your passphrase from online eavesdroppers.">
       <img src='/static/img/non.svg' class='icon'>
       <span class='bold'>Similar Jr.</span>
     </div>
-    <div style='background-color: #F0CD5C' to='/oth' class='item box' cert='Self-signed cert' info="Here you go with a completely unknown Certificate Authority and certificate. Unknown in this case means that the certificate is not shipped by your browser. Basically this can mean also different things: [1] this is a legitimate site, which does not want to buy a certificate from a CA (and then you should verify the fingerprints of the site), or [2] this is a certificate from a valid CA, which is not favored by the ruling class of CAs, but if you trust the CA you can import this yourself, or [3] this is really a MITM attack. However, if this would be a MITM attack on a certificate with a trusted CA in your browser it would be naive from the attacker’s point of view, yet for sites using self-signed certificates it's quite easy to MITM the connection if the fingerprints of the genuine site are not verified dilligently.">
+    <div style='background-color: #F0CD5C' to='/cac' class='item box' cert='A valid but untrusted CA, real cert' info="This is the case of a certificate made by a CAcert, which is a community ran by a community. CAcert is a pariah among the for-profit CA industry – and it's not included in any of the browsers' certificate «accept lists». However, CAcert is supported by a vibrant community which makes it quite common. This is one of the few CAs that you might want to install, but some browsers do not seem to like it and will raise alert messages.">
+      <img src='/static/img/non.svg' class='icon'>
+      <span class='bold'>Capt. Cert</span>
+    </div>    
+    <div style='background-color: #F0CD5C' to='/oth' class='item box' cert='Self-signed cert' info="In this case, the website (or someone manipulating your connection to it) has presented a certificate that was signed using a key that your browser does not recognise. It is extremely easy to generate such certificate, which makes this scenario fundamentally different from the two previous examples. As a result, your web browser will show you a warning and refuse to load the page until you reassure it that you know what you are doing.
+     <br/><br/>
+    It is very unlikely that a large, well known, commercial website will present a self-signed certificate. Other legitimate services do use them, however, either because they can not afford to purchase a signed certificate or because they object to the notion of a corporate 'trust market.'
+    <br/><br/>
+    Regardless, before you send anything sensitive to an HTTPS website with a self-signed certificate, you will need a reliable way to learn the 'fingerprint' of the key that it uses to protect its traffic. You can then compare this fingerprint with the one that your browser reports when you visit the website. If they match, and you tell your browser that everything is going to be okay, it will let you access the site (and warn you if it tries to use a different key at some point in the future).
+    <br/><br/>
+    Unfortunately, you can not yet believe anything published on the website itself, so this process typically requires asking someone who already knows the fingerprint—and whom you trust—to share it with you. And, while fingerprints are not at all confidential, you do need to make sure you get the right one, which means nobody can be allowed to tamper with it as it makes its way to you. So, if you can not meet this person face to face (and assuming you have not already worked out a secure means of communication), you should consider asking over the phone or using an online voice or video service. As long as you recognise her voice when she reads off that fingerprint, you should be fine.">
       <img src='/static/img/non.svg' class='icon'>
       <span class='bold'>Doctor Self-Signed</span>
     </div>
-    <div style='background-color: #F0CD5C' to='/cac' class='item box' cert='A valid but untrusted CA, real cert' info="This is the case of a certificate made by a CAcert, which is a community ran by a community. CAcert is a pariah among the for-profit CA industry – and it's not included in any of the browsers' certificate «accept lists». However, CAcert is supported by a vibrant community which makes it quite common. This is one of the few CAs that you might want to install, but some browsers do not seem to like it and will raise alert messages.">
-      <img src='/static/img/non.svg' class='icon'>
-      <span class='bold'>Sir Unknown Valid</span>
-    </div>
     <div style='background-color: #FF7878' to='/mtm' class='item box' cert='Faked cert and CA' info="This is a completely forged certificate from a forged Certificate Authority. Basically the counterfeited certificate looks almost the same of the real one in scenario (2.a), except for the fingerprints and a few less obvious details. This situation simulates what could be a moderately sophisticated attack.">
       <img src='/static/img/sad.svg' class='icon'>
-      <span class='bold'>Jane in the Middle</span>
+      <span class='bold'>Maria in the Middle</span>
     </div>
   </div>
   <div class='item' style='width: 935px'>

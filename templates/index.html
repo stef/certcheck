@@ -23,9 +23,13 @@
       var innerHTML = '<a target="_blank" class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>';
       $('#screens').empty();
       $('#info').html(innerHTML);
-      //todo chrome default and safari pics
-      var shots = screens["{{browser}}"][certi];
-      var path = "/static/img/shots/{{browser}}/";
+      var browserName = "{{browser}}";
+      //when user's browser is not one of this, set Chrome caroussel images
+      if (['Chrome', 'Safari', 'Firefox'].indexOf(browserName) < 0){
+        browserName = 'Chrome';
+      } 
+      var shots = screens[browserName][certi];
+      var path = "/static/img/shots/"+ browserName +"/";
       $.each(shots, function(i, e){
         $('#screens').append($('<li><img alt="'+ e['label'] +'" src="'+ path + e['src'] +'"/></li>'));
         //

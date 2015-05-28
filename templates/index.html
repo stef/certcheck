@@ -2,6 +2,10 @@
 
 
 {% block scripts %}
+<script src="/static/js/jquery-1.11.2.min.js"></script>
+<script src="/static/js/jcarousel.min.js"></script>
+<script src="/static/js/screens.js"></script>
+
 <noscript>
   You need javascript enabled to properly interact with this page.
 </noscript>
@@ -9,7 +13,7 @@
 <script>
  $(document).ready(function() {
 
-    preLoad = new Image(); 
+    preLoad = new Image();
     preLoad.src="/static/img/scary.svg";
 
     $('.jcarousel').on('jcarousel:fullyvisiblein', 'li', function(event, carousel) {
@@ -27,9 +31,12 @@
       //when user's browser is not one of this, set Chrome caroussel images
       if (['Chrome', 'Safari', 'Firefox'].indexOf(browserName) < 0){
         browserName = 'Chrome';
-      } 
+      }
       var shots = screens[browserName][certi];
       var path = "/static/img/shots/"+ browserName +"/";
+      if (window.location.hostname.indexOf('certcheck.me')>0){
+        var path = "https://certcheck.me" + path;
+      }
       $.each(shots, function(i, e){
         $('#screens').append($('<li><img alt="'+ e['label'] +'" src="'+ path + e['src'] +'"/></li>'));
         //
@@ -44,7 +51,7 @@
     setInfo(actual);
 
     $('.item.box')
-      .click(function(){ 
+      .click(function(){
         setInfo($(this));
         $('.test').hide().fadeIn(600);
         $('.item.box').css('border', '');
@@ -67,7 +74,7 @@
     })
 
     $('#less').click(function(){
-      $('.hidden').fadeOut(400, function(){ 
+      $('.hidden').fadeOut(400, function(){
         $('#more').show()
       });
     })
@@ -118,7 +125,7 @@
     <div style='background-color: #F0CD5C' to='/cac' class='item box' cert='A valid but untrusted CA, real cert' info="This is the case of a certificate made by a CAcert, which is a community ran by a community. CAcert is a pariah among the for-profit CA industry – and it's not included in any of the browsers' certificate «accept lists». However, CAcert is supported by a vibrant community which makes it quite common. This is one of the few CAs that you might want to install, but some browsers do not seem to like it and will raise alert messages.">
       <img src='/static/img/non.svg' class='icon'>
       <span class='bold'>Capt. Cert</span>
-    </div>    
+    </div>
     <div style='background-color: #F0CD5C' to='/oth' class='item box' cert='Self-signed cert' info="In this case, the website (or someone manipulating your connection to it) has presented a certificate that was signed using a key that your browser does not recognise. It is extremely easy to generate such certificate, which makes this scenario fundamentally different from the two previous examples. As a result, your web browser will show you a warning and refuse to load the page until you reassure it that you know what you are doing.
      <br/><br/>
     It is very unlikely that a large, well known, commercial website will present a self-signed certificate. Other legitimate services do use them, however, either because they can not afford to purchase a signed certificate or because they object to the notion of a corporate 'trust market.'

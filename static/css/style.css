@@ -80,6 +80,10 @@ a.btn:hover{
 	margin-bottom: 20px;
 }
 
+#info{
+    display: inline-block;
+}
+
 .item {
 	background-color: #F2F2F2;
 	border: 5px solid white;
@@ -207,8 +211,8 @@ a.ttc{
 }
 
 .jcarousel li {
-    display:table-cell; 
-    vertical-align:middle; 
+    display:table-cell;
+    vertical-align:middle;
     text-align:center;
 }
 
@@ -263,19 +267,19 @@ a.ttc{
 .jcarousel-pagination a {
     text-decoration: none;
     display: inline-block;
-    
+
     font-size: 11px;
     line-height: 14px;
     min-width: 14px;
-    
+
     background: #fff;
     color: #4E443C;
     border-radius: 14px;
     padding: 3px;
     text-align: center;
-    
+
     margin-right: 2px;
-    
+
     opacity: .75;
 }
 

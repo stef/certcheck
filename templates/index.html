@@ -24,7 +24,7 @@
     function setInfo(elem){
       var title = $(elem).children().next().text();
       var certi = $(elem).attr('cert');
-      var innerHTML = '<a target="_blank" class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>' + "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>';
+      var innerHTML = "<h2>About " + title + "</h2><p>" + $(elem).attr('info') + '</p>' + '<a target="_blank" class="btn test" href="'+ $(elem).attr('to') +'">[ test me! ]</a>';
       $('#screens').empty();
       $('#info').html(innerHTML);
       var browserName = "{{browser}}";

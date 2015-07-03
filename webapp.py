@@ -21,7 +21,7 @@
 from flask import Flask, request, render_template, redirect, abort, make_response
 from common import cfg
 from urlparse import urlparse
-import os, random, itertools, hmac, hashlib, string, sys
+import os, random, itertools, hmac, hashlib, string, sys, httpagentparser
 from snifer import Snifer
 
 def rnd(size):
@@ -45,53 +45,62 @@ mapports = { 'def': 5001,
              'cac': 5006,
             }
 
-def getcert(host):
-    hostbase = cfg.get('app','hostbase')
-    uid = host #host[:-(len(hostbase)+1)]
+def hostbase():
+    cfg.get('app','hostbase')
+
+def getport(host):
     try:
-        with open("%s/%s" % (cfg.get('app','redirs'), uid), 'r') as fd:
+        with open("%s/%s" % (cfg.get('app','redirs'), host), 'r') as fd:
             port = int(fd.readline().strip())
     except IOError:
         port = 5001
+    return port
+
+def getcert(host):
+    port = getport(host)
     return portmap[port]
 
+def getbrowser():
+    userAgentString = request.headers.get('User-Agent')
+    parse = httpagentparser.detect(userAgentString)
+    return parse['browser']['name']
+
 def setcert(host, type):
-    hostbase = cfg.get('app','hostbase')
-    uid = host #host[:-(len(hostbase)+1)]
-    with open("%s/%s" % (cfg.get('app','redirs'), uid), 'w') as fd:
+    with open("%s/%s" % (cfg.get('app','redirs'), host), 'w') as fd:
         fd.write("%s\n" % mapports[type])
 
 @app.context_processor
 def contex():
     global cfg, query
-    return {'cfg'   : cfg
-           ,'query' : ''
-           ,'path'  : request.path
-           }
+    return {'cfg': cfg, 'query': '','path': request.path}
 
 @app.route('/', methods=['GET'])
 def index():
-    hostbase = cfg.get('app', 'hostbase')
     host = urlparse(request.url).hostname
-    if not host.endswith('%s' % hostbase):
+    if host!='localhost' and not host.endswith('%s' % hostbase):
         raise ValueError("wrong host %s" % repr(host))
     if host in [hostbase, 'www.%s' % hostbase]:
         prefix = rnd(8)
-        s = Snifer("/home/certcheck/snifer/redirs")
-        s.set(prefix, 'certcheck.me', "5001")
+        s = Snifer(cfg.get('app','redirs'))
+        s.set(prefix, hostbase, "5001")
         resp = make_response(redirect('https://%s.%s/' % (prefix, hostbase)))
     else:
-        cert = getcert(host)
-        resp = make_response(render_template('index.html', error=None, cert=cert))
+        cert = getcert(host)      
+        resp = make_response(render_template('index.html', error=None, cert=cert, browser=getbrowser()))
+    resp.headers['Connection'] = 'close'
+    return resp
+
+@app.route('/about', methods=['GET'])
+def about(): 
+    resp = make_response(render_template('about.html'))
     resp.headers['Connection'] = 'close'
     return resp
 
 @app.route('/<string:act>', methods=['GET'])
 def change_cert(act):
-    hostbase = cfg.get('app', 'hostbase')
     host = urlparse(request.url).hostname
     if act not in mapports: abort(404)
-    if not host.endswith('%s' % hostbase):
+    if host!='localhost' and not host.endswith('%s' % hostbase):
         raise ValueError("wrong host %s" % repr(host))
     setcert(urlparse(request.url).hostname, act)
 
@@ -100,8 +109,8 @@ def change_cert(act):
     return resp
 
 if __name__ == "__main__":
-    app.run(debug        = cfg.get('server', 'debug')
-           ,use_debugger = cfg.get('server', 'debug')
-           ,port         = int(cfg.get('server', 'port'))
-           #,host         = int(cfg.get('server', 'host'))
-           )
+    app.run(
+            debug        = cfg.get('server', 'debug'),
+            use_debugger = cfg.get('server', 'debug'),
+            port         = int(cfg.get('server', 'port'))
+        )
